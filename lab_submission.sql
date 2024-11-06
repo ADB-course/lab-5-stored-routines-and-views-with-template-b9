@@ -20,6 +20,24 @@ DELIMITER ;
 SHOW PROCEDURE STATUS
 
 -- (ii) A Function called FUNC_LAB5
+DELIMITER $$
+
+CREATE FUNCTION `FUNC_LAB5`(customerID INT) 
+RETURNS DECIMAL(10,2)
+DETERMINISTIC
+BEGIN
+    DECLARE totalRevenue DECIMAL(10,2);
+    
+    SELECT SUM(orderdetails.quantityOrdered * orderdetails.priceEach) 
+    INTO totalRevenue
+    FROM orders
+    JOIN orderdetails ON orders.orderNumber = orderdetails.orderNumber
+    WHERE orders.customerNumber = customerID;
+    
+    RETURN totalRevenue;
+END$$
+
+DELIMITER ;
 
 
 -- (iii) A View called VIEW_LAB5
