@@ -41,3 +41,23 @@ DELIMITER ;
 
 
 -- (iii) A View called VIEW_LAB5
+DELIMITER $$
+
+CREATE VIEW VIEW_LAB5 AS
+SELECT 
+    e.EmployeeID,
+    e.EmployeeName,
+    COALESCE(SUM(s.SaleAmount), 0) AS TotalSales,
+    COALESCE(FUNC_LAB5(c.CustomerID), 0) AS TotalRevenue
+FROM 
+    Employees e
+LEFT JOIN Sales s ON e.EmployeeID = s.EmployeeID
+LEFT JOIN Customers c ON c.SalesRepEmployeeID = e.EmployeeID
+GROUP BY 
+    e.EmployeeID, e.EmployeeName
+ORDER BY 
+    TotalSales DESC;
+
+SELECT * FROM VIEW_LAB5;
+
+DELIMITER ;
